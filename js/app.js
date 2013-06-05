@@ -130,10 +130,6 @@ App.Team = DS.Model.extend({
 
 //App.Schedule.adapter = Ember.RESTAdapter.create();
 
-
-
-
-
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function() {
     this.controllerFor('home').set('teams', App.Team.find());
@@ -354,20 +350,6 @@ App.Team.FIXTURES = [
     colors: 'Black, Grey, White'
   }
 ];
-
-//Ember.run(object, function(obj) { obj.set('loaded', true); });
-
-// App.MasonryView = Ember.CollectionView.extend({
-//   didInsertElement: function() {
-//     // At this point, no child elements have been rendered, so
-//     // schedule buildMasonry to run after the child elements
-//     // have rendered.
-//     Ember.run.scheduleOnce('afterRender', this, 'buildMasonry');
-//   },
-//   buildMasonry: function() {
-//     this.$().masonry();
-//   }
-// });
 
 
 
