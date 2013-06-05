@@ -1,0 +1,21 @@
+
+html {
+  font-size: 62.5%;
+}
+
+#ember-testing {
+  border: 1px solid black;
+  box-shadow: 0 0 15px #333;
+  position: absolute; 
+  background: white; 
+  top: -780px; 
+  left: 50%; 
+  width: 880px; 
+  height: 568px; 
+  overflow: hidden; 
+  z-index: 9999; 
+  border: 2px solid #ccc; 
+  margin-left: -640px; 
+  transition: top .5s ease-in-out;
+}
+

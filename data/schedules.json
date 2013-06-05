@@ -1,0 +1,6 @@
+{
+  "schedules": [
+    {"id": 1, "location": "South Park"},
+    {"id": 2, "location": "North Park"}
+  ]
+}

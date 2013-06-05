@@ -1,0 +1,19 @@
+
+#ember-testing { 
+  box-shadow: 0 0 15px #333;
+  border-radius: 15px;
+  position: absolute; 
+  background: #eee; 
+  left: 50%; 
+  width: 1000px; 
+  height: 400px; 
+  z-index: 9999; 
+  border: 15px solid #ccc;
+  margin-top: 50px; 
+  margin-left: -500px; 
+  padding: 20px;
+}
+
+.close {
+  float: right;
+}
