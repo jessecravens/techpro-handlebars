@@ -62,14 +62,14 @@
 	
 		<h3>Teams</h3>
 	
-		 {{#unless teams.isUpdating}}
-		   {{#if teamsAreLoaded}}
+
+		   {{#if teams.isLoaded}}
 			 {{#view "App.TeamsView"}}
 			   <ul class="teams"> 
 				 {{#each team in teams}}
 				  <li> 
 					{{#linkTo "team" team}}
-					  {{team.name}}
+					  {{team.name}} 
 					{{/linkTo}}
 				  </li>
 				 {{/each}}
@@ -78,9 +78,7 @@
 			{{else}}
 			  <p class="loading">...Loading teams</p>
 			{{/if}}
-		 {{else}}
-		  <p class="loading">...Loading teams</p>
-		 {{/unless}}
+
 	
 		 <p> using: {{controller}} </p>
 	
@@ -89,7 +87,7 @@
 		 <p> teamsAreLoaded: {{teamsAreLoaded}} </p>
 	
 		 <p> teams.isUpdating: {{teams.isUpdating}} </p>
-	
+	  
 	  </script>
 	
 	  <script type="text/x-handlebars" data-template-name="team">

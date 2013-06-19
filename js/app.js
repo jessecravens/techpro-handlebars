@@ -3,21 +3,22 @@
 /*global $, Ember, DS, App, console */
 
 $.fn.decorate = function () {
-	console.log($('ul.teams').children("li").length);
 	$('ul.teams').children("li").css('color', 'red');
 };
 
 App = Ember.Application.create({
-	LOG_TRANSITIONS: true
+	LOG_TRANSITIONS: true,
+	LOG_VIEW_LOOKUPS: true,
+	LOG_ACTIVE_GENERATION: true
 });
 
-App.initializer({
-	name: "debug",
-	initialize: function () {
-		Ember.debug("Debug initializer");
-		console.log('debug');
-	}
-});
+//App.initializer({
+//	name: "debug",
+//	initialize: function () {
+//		Ember.debug("Debug initializer");
+//		console.log('debug');
+//	}
+//});
 
 App.Router.map(function () {
 	this.resource("home", {
@@ -48,38 +49,31 @@ App.Team = DS.Model.extend({
 });
 
 App.ApplicationRoute = Ember.Route.extend({
+	
 	setupController: function () {
 		this.controllerFor('home').set('teams', App.Team.find());
-		//this.controllerFor('home').set('schedules', App.Schedule.find());
 		this.controllerFor('other').set('teams', App.Team.find());
 		this.controllerFor('another').set('teams', App.Team.find());
 	}, 
-	events: function(){
-		console.log('App.ApplicationRoute event captured.');
+	events: { 
+
 	}
 });
 
 App.HomeRoute = Ember.Route.extend({
 	
-	init: function () {
-		console.log('init HomeRoute');
-	},
 	model: function () {
 		return ['Coed', 'Saturdays from 9AM-3PM', 'at Park Center'];
 	},
 	setupController: function (controller, model) {
 		
 		controller.set('info', model);
-		// controller.set('teams', App.Team.find());
-		// this.controllerFor('other').set('teams', this.controller.get('teams'));
+		//controller.set('teams', App.Team.find());
 	}
 });
 
 App.OtherRoute = Ember.Route.extend({
 	
-	init: function () {
-		console.log('init OtherRoute');
-	},
 	model: function () {
 		return ['This is other info.', 'For the other page.'];
 	},
@@ -87,16 +81,11 @@ App.OtherRoute = Ember.Route.extend({
 	setupController: function (controller, model) {
 		
 		controller.set('info', model);
-		// controller.set('teams', App.Team.find());
-		// this.controllerFor('home').set('teams', this.controller.get('teams'));
-		
+		//controller.set('teams', App.Team.find());
 	}
 });
 
 App.AnotherRoute = Ember.Route.extend({
-	init: function () {
-		console.log('init AnotherRoute');
-	}
 });
 
 App.TeamRoute = Ember.Route.extend({
@@ -107,17 +96,13 @@ App.TeamRoute = Ember.Route.extend({
 	//		return App.Team.find(params.team_id);
 	//	},
 	//	setupController: function(controller, model) {
-	//    	controller.set('content', model);
+	//		controller.set('content', model);
 	//  }
 	
 });
 
 App.HomeController = Ember.ArrayController.extend({
 	
-	init: function () {
-		console.log('init HomeController');
-	},
-	
 	teamsAreLoaded: function () {
 		if (this.get('teams.isUpdating') === true) {
 			return false;
@@ -125,14 +110,11 @@ App.HomeController = Ember.ArrayController.extend({
 			return true;
 		}
 	}.property('teams.isUpdating')
+	
 });
 
 App.OtherController = Ember.ArrayController.extend({
 	
-	init: function () {
-		console.log('init OtherController');
-	},
-	
 	teamsAreLoaded: function () {
 		if (this.get('teams.isUpdating') === true) {
 			return false;
@@ -140,17 +122,17 @@ App.OtherController = Ember.ArrayController.extend({
 			return true;
 		}
 	}.property('teams.isUpdating')
+	
 });
 
 App.AnotherController = Ember.ArrayController.extend({
 	
-	init: function () {
-		console.log('init AnotherController');
-	}
 });
 
 App.HomeView = Ember.View.extend({
+	
 	templateName: 'home'
+	
 });
 
 App.TeamView = Ember.View.extend({
@@ -159,71 +141,39 @@ App.TeamView = Ember.View.extend({
 
 App.TeamsView = Ember.View.extend({
 	
-	init: function () {
-		console.log('init TeamsView');
-		//console.log(this.get('controller.teams'));
-	},
-	
 	didInsertElement: function () {
-		// At this point, no child elements have been rendered, so
-		// schedule decorator to run after the child elements
-		// have rendered.
-		
-		//this.callDecorate();
 		this.$().decorate();
-		//Ember.run.scheduleOnce('afterRender', this, 'callDecorate');
-		//Ember.run.next(this, 'callDecorate');
-		
-		//var teams = this.get('controller');
-		//console.log(teams)
-		//console.log(teams.get('isSaving'));
-		//console.log(teams.get('isLoaded'));
-		
-	},
-	callDecorate: function () {
-		//console.log('decorate')
-		//console.log(this.$().pluginName());
-		//this.$().decorate();
-	},
-	afterRender: function () {
-		//console.log('afterRender');
 	}
+	
 });
 
 App.AnotherView = Ember.CollectionView.extend({
-	
-	// cant init() a CollectionView
-	
-	// init: function(){
-	//   console.log('init AnotherContainerView');
-	// },
-	
+
 	teamsAreLoaded: false,
 	
 	didInsertElement: function () {
 		
-		//this.$().decorate()
-		//Ember.run.scheduleOnce('afterRender', this, 'callDecorate');
-		console.log('didInsertElement');
-		console.log(this.teamsAreLoaded);
-		
 		if (this.teamsAreLoaded === false) {
 			this.$().html('<p class="loading">...Loading teams</p>');
 		}
+		
 	},
+	
 	callDecorate: function () {
 		this.$().decorate();
 	},
+	
 	tagName: 'ul',
+	
 	classNames: ['teams'],
+	
 	contentBinding: 'controller.teams',
+	
 	itemViewClass: Ember.View.extend({
 		template: Ember.Handlebars.compile('{{#linkTo "team" view.content}}{{view.content.name}}{{/linkTo}}')
-		//template: Em.TEMPLATES['link']
 	}),
 	
 	didInsertChildElements: function () {
-		console.log(this.get('state'));
 		Ember.run.scheduleOnce('afterRender', this, 'callDecorate');
 		this.teamsAreLoaded = true;
 	}.observes('[]')
